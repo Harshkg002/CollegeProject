@@ -1,6 +1,5 @@
-# CollegeProject
-#### DegreeBee
-Our project combines various functionalities to support students in staying organized and productive. The key features of the app include:
+# DegreeBee
+Our college project combines various functionalities to support students in staying organized and productive. The key features of the app include:
 
 1. Reminder System
 2. Journal
