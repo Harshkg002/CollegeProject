@@ -1,7 +1,8 @@
 from tkinter import *
 from tkinter import messagebox as ms 
 import mysql.connector as mc
-from centerwindow import *
+from devtools import *
+
 
 class login:
 
@@ -16,7 +17,7 @@ class login:
         window_height=500
         center_window(self.root,window_width,window_height)
 
-        self.img = PhotoImage(file="/Users/akshsaini/Documents/PYproject//login.png")
+        self.img = PhotoImage(file=find_file("login.png"))
         Label(self.root, image=self.img, bg="white").place(x=50, y=50)
 
         self.frame = Frame(self.root, width=350, height=350, bg="white")

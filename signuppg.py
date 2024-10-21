@@ -5,7 +5,7 @@ from email.message import EmailMessage
 import random
 import mysql.connector as mc
 from PIL import Image,ImageTk
-from centerwindow import *
+from devtools import *
 
 class Signup:
 
@@ -147,7 +147,7 @@ class Signup:
         self.but1.place(x=35, y=310, width=300, height=40)
         self.but1.bind("<Button-1>", self.database)
 
-        self.__path1 = '/Users/akshsaini/Documents/PYproject/backbut.png'
+        self.__path1 = find_file("backbut.pmg")
         self.__original1 = Image.open(self.__path1)
         self.__resized1 = self.__original1.resize((30, 30))
         self.__fimage1 = ImageTk.PhotoImage(self.__resized1)

@@ -1,12 +1,13 @@
 from tkinter import *
-
+from devtools import find_file 
 class Homepage:
     def __init__(self):
         self.root = Tk()
         self.root.title("DegreeBee")
         self.root.geometry('925x500')
+        
 
-        bg_photo = PhotoImage(file=r"D:\python\courseBee\homepage.png")
+        bg_photo = PhotoImage(file=find_file("homepage.png"))
         bg_label = Label(self.root, image=bg_photo)
         bg_label.place(x=0, y=0, relwidth=1, relheight=1)
 
