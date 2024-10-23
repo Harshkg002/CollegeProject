@@ -21,5 +21,5 @@ def find_file(filename):
     else:
         return None
 
-font = "Microsoft YaHei UI Light"
+theame_font = "Microsoft YaHei UI Light"
 resolution = "925x500"

@@ -11,26 +11,26 @@ class Homepage:
         bg_label = Label(self.root, image=bg_photo)
         bg_label.place(x=0, y=0, relwidth=1, relheight=1)
 
-        label = Label(self.root, text="DegreeBee", font=("Roboto", 24), bg="#57a1f8")
-        label.pack(pady=7)
-        sidebar = Frame(self.root, bg="#68acf4", width=170, height=430)
+        label = Label(self.root, text="DegreeBee", font=("Microsoft YaHei UI Light", 24,"bold"), bg="#57a1f8")
+        label.pack(pady=5)
+        sidebar = Frame(self.root, bg="#57a1f8", width=170, height=430)
         sidebar.pack(side=LEFT)
         sidebar.pack_propagate(False)
 
         self.buttons = []  # Make buttons an instance variable
 
         # Create the button under 'Home'
-        button1 = Button(sidebar, text="Journal", bg="#68acf4", fg="black", font=("Roboto", 18), relief=FLAT, width=20,
+        button1 = Button(sidebar, text="Journal", bg="#57a1f8", fg="black", font=("Microsoft YaHei UI Light", 18,"bold"), relief=FLAT, width=20,
                          command=lambda: self.highlight_button(button1))  # Use self to call the method
         button1.pack(pady=2)
         self.buttons.append(button1)
 
-        button2 = Button(sidebar, text="Feature 2", bg="#68acf4", fg="black", font=("Roboto", 18), relief=FLAT, width=20,
+        button2 = Button(sidebar, text="Feature 2", bg="#57a1f8", fg="black", font=("Microsoft YaHei UI Light", 18,"bold"), relief=FLAT, width=20,
                          command=lambda: self.highlight_button(button2))
         button2.pack(pady=2)
         self.buttons.append(button2)
 
-        button3 = Button(sidebar, text="Feature 3", bg="#68acf4", fg="black", font=("Roboto", 18), relief=FLAT, width=20,
+        button3 = Button(sidebar, text="Feature 3", bg="#57a1f8", fg="black", font=("Microsoft YaHei UI Light", 18,"bold"), relief=FLAT, width=20,
                          command=lambda: self.highlight_button(button3))
         button3.pack(pady=2)
         self.buttons.append(button3)
@@ -40,7 +40,7 @@ class Homepage:
         content_frame.pack(expand=True)
 
         # Add a label or content to show it's related to the "Open Feature"
-        content_label = Label(content_frame, text="You have opened the feature!", font=("Roboto", 24), bg="white")
+        content_label = Label(content_frame, text="You have opened the feature!", font=("Microsoft YaHei UI Light", 24), bg="white")
         content_label.pack(pady=20)
 
         self.root.mainloop()
@@ -48,9 +48,9 @@ class Homepage:
     def highlight_button(self, selected):
         # Reset the background of all buttons
         for button in self.buttons:
-            button.config(bg="#68acf4", relief=FLAT)
+            button.config(bg="#57a1f8", relief=FLAT)
 
         # Highlight the selected button
-        selected.config(bg="lightblue", relief=GROOVE)
+        selected.config(bg="#57a1f8", relief=GROOVE)
 
 s = Homepage()
