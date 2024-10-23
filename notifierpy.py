@@ -1,9 +1,9 @@
 from tkinter import *
 from plyer import notification
 from tkinter import messagebox
-from PIL import Image, ImageTk
 import time
 from datetime import datetime, timedelta
+from devtools import find_file
 
 t = Tk()
 t.title('Notifier')
@@ -48,7 +48,7 @@ def get_details():
             title=get_title,
             message=get_msg,
             app_name="Notifier",
-            app_icon=r"C:\path\to\your\icon.ico",  # Update the path to your icon
+            app_icon=find_file("icon.ico"),  # Update the path to your icon
             toast=True,
             timeout=10
         )
