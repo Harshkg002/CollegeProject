@@ -20,3 +20,6 @@ def find_file(filename):
         return os.path.join(script_directory, filename)
     else:
         return None
+
+theame_font = "Microsoft YaHei UI Light"
+resolution = "925x500"
