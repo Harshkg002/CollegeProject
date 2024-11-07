@@ -1,13 +1,13 @@
 from tkinter import *
 from plyer import notification
 from tkinter import messagebox
+from PIL import Image, ImageTk
 import time
 from datetime import datetime, timedelta
-from devtools import find_file
 
 t = Tk()
 t.title('Notifier')
-t.geometry("735x440")
+t.geometry("925x500")
 
 # Get details function
 def get_details():
@@ -48,7 +48,7 @@ def get_details():
             title=get_title,
             message=get_msg,
             app_name="Notifier",
-            app_icon=find_file("ico.ico"),  # Update the path to your icon
+            app_icon=r"C:\Users\Guest1\Desktop\ok\Python\tkinter.py\tk.py\NOTIFICATION-REMINDER-APP-main\Notifier-Desktop-app-master\ico.ico",  # Update the path to your icon
             toast=True,
             timeout=10
         )
@@ -111,7 +111,7 @@ time_ampm = Entry(t, width="5", fg="#57a1f8", font=entry_font)
 time_ampm.place(x=550, y=260)
 
 # Button to set notification
-but = Button(t, text="SET NOTIFICATION", font=button_font, fg="#ffffff", bg="#528DFF", width=20, relief="raised", command=get_details)
+but = Button(t, text="SET  NOTIFICATION", font=button_font, fg="#ffffff", bg="#528DFF", width=20, relief="raised", command=get_details)
 but.place(x=350, y=350)
 
 t.resizable(0, 0)
