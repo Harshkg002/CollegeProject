@@ -1,0 +1,76 @@
+import tkinter as tk
+from tkinter import messagebox
+from datetime import datetime
+
+class ExpenseTracker:
+    def __init__(self, root):
+        self.root = root
+        self.root.title("Expense Tracker")
+        self.root.geometry("925x500")
+
+        # Title
+        self.title_label = tk.Label(root, text="Expense Tracker", font=("Arial", 16))
+        self.title_label.pack(pady=10)
+
+        # Entry for item
+        self.item_label = tk.Label(root, text="Item:")
+        self.item_label.place(x=270,y=50)
+        self.item_entry = tk.Entry(root, width=50)
+        self.item_entry.pack()
+
+        # Entry for cost
+        self.cost_label = tk.Label(root, text="Cost:")
+        self.cost_label.place(x=270,y=70)
+        self.cost_entry = tk.Entry(root, width=50)
+        self.cost_entry.pack()
+
+        # Button to add expense
+        self.add_button = tk.Button(root, text="Add Expense",bg='blue', command=self.add_expense)
+        self.add_button.place(x=430,y=105)
+        # Listbox to show expenses
+        self.expense_listbox = tk.Listbox(root, width=50, height=10)
+        self.expense_listbox.pack(pady=60)
+
+        # Label to show total expenses
+        self.total_label = tk.Label(root, text="Total: ₹0", font=("Arial", 20))
+        self.total_label.pack(pady=10)
+
+        # List to store expenses
+        self.expenses = []
+        self.total_by_month = {}
+
+    def add_expense(self):
+        item = self.item_entry.get()
+        cost = self.cost_entry.get()
+
+        try:
+            cost = float(cost)
+            date = datetime.now().strftime("%Y-%m-%d")
+            self.expenses.append((date, item, cost))
+            self.update_expenses()
+        except ValueError:
+            messagebox.showerror("Invalid Input", "Please enter a valid cost.")
+
+    def update_expenses(self):
+        self.expense_listbox.delete(0, tk.END)
+        total = 0
+        current_month = datetime.now().strftime("%Y-%m")
+        
+        for date, item, cost in self.expenses:
+            month = date[:7]
+            self.expense_listbox.insert(tk.END, f"{date} - {item}: ${cost:.2f}")
+            if month not in self.total_by_month:
+                self.total_by_month[month] = 0
+            self.total_by_month[month] += cost
+            if month == current_month:
+                total += cost
+        
+        self.total_label.config(text=f"Total this month: ${total:.2f}")
+
+        if current_month in self.total_by_month:
+            self.total_label.config(text=f"Total this month: ${self.total_by_month[current_month]:.2f}")
+
+if __name__ == "__main__":
+    root = tk.Tk()
+    app = ExpenseTracker(root)
+    root.mainloop()
