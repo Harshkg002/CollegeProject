@@ -4,22 +4,25 @@ from datetime import datetime
 
 class JournalApp:
     def __init__(self, parent=None):
-        self.window = tk.Tk() if parent is None else parent
+        # Correctly assign parent
+        self.parent = parent  # This sets self.parent to the content_frame passed from Homepage
 
         # Set the background color and window size
         self.parent.configure(bg="#d9f1f1")  # Change to your desired color
+
         # Set the text area with custom background and font
-        self.text_area = tk.Text(parent, wrap=tk.WORD, height=13, width=50, bg="#ffffff",highlightbackground="grey",highlightcolor="#57a1f8",highlightthickness=4, font=("Arial", 16))
+        self.text_area = tk.Text(self.parent, wrap=tk.WORD, height=13, width=50, bg="#ffffff",
+                                 highlightbackground="grey", highlightcolor="#57a1f8", highlightthickness=4, font=("Arial", 16))
         self.text_area.pack(pady=15)
         self.text_area.insert("1.0", "Enter your text here...")
 
         # Save Entry Button
-        self.save_button = tk.Button(parent, text="Save Entry", command=self.save_entry, bg="#4682b4", fg="white", font=("Arial", 10, "bold"))
-        self.save_button.place(x=250,y=350)
+        self.save_button = tk.Button(self.parent, text="Save Entry", command=self.save_entry, bg="#4682b4", fg="white", font=("Arial", 10, "bold"))
+        self.save_button.place(x=250, y=350)
 
         # Load Entries Button
-        self.load_button = tk.Button(parent, text="Load Entries", command=self.load_entries, bg="#4682b4", fg="white", font=("Arial", 10, "bold"))
-        self.load_button.place(x=400,y=350)
+        self.load_button = tk.Button(self.parent, text="Load Entries", command=self.load_entries, bg="#4682b4", fg="white", font=("Arial", 10, "bold"))
+        self.load_button.place(x=400, y=350)
 
     def save_entry(self):
         entry = self.text_area.get("1.0", tk.END).strip()
@@ -40,8 +43,3 @@ class JournalApp:
                 self.text_area.insert(tk.END, entries)
         except FileNotFoundError:
             messagebox.showwarning("Warning", "No entries found. Please save an entry first.")
-
-if __name__ == "__main__":
-    parent = tk.Tk()
-    app = JournalApp(parent)
-    parent.mainloop()
