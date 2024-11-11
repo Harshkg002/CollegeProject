@@ -13,10 +13,8 @@ class Habit(TypedDict):
     last_checked: float
 
 class HabitTracker:
-    def __init__(self):
-        self.window = tk.Tk()
-        self.window.title("Habit Tracker")
-        self.window.geometry("800x600")
+    def __init__(self, parent=None):
+        self.window = parent if parent else tk.Tk()
         self.window.config(bg="#f0f4f8")
 
         # Constants
@@ -60,7 +58,7 @@ class HabitTracker:
     def setup_ui(self):
         # Title Frame
         title_frame = tk.Frame(self.window, bg="#f0f4f8")
-        title_frame.pack(pady=20)
+        title_frame.pack(pady=10)
         
         title = tk.Label(
             title_frame,
@@ -78,7 +76,7 @@ class HabitTracker:
             fg="#4a5568",
             bg="#f0f4f8"
         )
-        subtitle.pack(pady=5)
+        subtitle.pack()
 
         # Input Frame
         input_frame = tk.Frame(self.window, bg="#f0f4f8")

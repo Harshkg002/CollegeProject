@@ -77,7 +77,6 @@ class Homepage:
         self.highlight_button(self.buttons[1])  # Highlight the second button
         # Display NotifierApp in the content_frame
         notifier_app = Reminder(self.content_frame)
-        self.content_frame.config(width=700,height=400) # Clear any previous content
         
     def show_habit(self):
         self.clear_content_frame()  # Clear any previous content
