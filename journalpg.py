@@ -8,7 +8,7 @@ class JournalApp:
         self.parent = parent  # This sets self.parent to the content_frame passed from Homepage
 
         # Set the background color and window size
-        self.parent.configure(bg="#d9f1f1")  # Change to your desired color
+        self.parent.config(bg="#ffffff")  # Change to your desired color
 
         # Set the text area with custom background and font
         self.text_area = tk.Text(self.parent, wrap=tk.WORD, height=13, width=50, bg="#ffffff",
@@ -43,3 +43,6 @@ class JournalApp:
                 self.text_area.insert(tk.END, entries)
         except FileNotFoundError:
             messagebox.showwarning("Warning", "No entries found. Please save an entry first.")
+if __name__ == "__main__":
+    app = JournalApp()
+    app.run()

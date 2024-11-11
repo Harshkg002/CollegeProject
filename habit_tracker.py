@@ -15,7 +15,7 @@ class Habit(TypedDict):
 class HabitTracker:
     def __init__(self, parent=None):
         self.window = parent if parent else tk.Tk()
-        self.window.config(bg="#f0f4f8")
+        self.window.config(bg="#ffffff")
 
         # Constants
         self.HABIT_FILE = "habits.json"
