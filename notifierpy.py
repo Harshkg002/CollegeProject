@@ -1,118 +1,153 @@
-from tkinter import *
-from plyer import notification
+import customtkinter as tk
 from tkinter import messagebox
-from PIL import Image, ImageTk
-import time
 from datetime import datetime, timedelta
 
-t = Tk()
-t.title('Notifier')
-t.geometry("925x500")
+class Reminder:
+    def __init__(self, parent):
+        self.parent = parent
+        self.frame = tk.CTkFrame(parent, fg_color="white")
+        self.frame.pack(expand=True, fill=tk.BOTH)
 
-# Get details function
-def get_details():
-    get_title = title.get()
-    get_msg = msg.get()
+        self.notification_label = tk.CTkLabel(self.frame, text="", fg_color="white", text_color="#57a1f8", font=("Microsoft YaHei UI Light", 12))
+        self.notification_label.pack(pady=5)
 
-    if get_title.strip() == "" or get_msg.strip() == "":
-        messagebox.showerror("Alert", "Title and message are required!")
-        return
+        self.main_frame = tk.CTkFrame(self.frame, fg_color="white")
+        self.main_frame.pack(expand=True, fill=tk.BOTH, padx=20, pady=20)
 
-    # Specific time mode
-    get_hour = time_hour.get()
-    get_minute = time_minute.get()
-    get_ampm = time_ampm.get()
+        self.t_label = tk.CTkLabel(self.main_frame, text="Title: ", text_color="black", font=("Roboto", 18), fg_color='white')
+        self.t_label.pack(anchor="w", pady=5)
 
-    if get_hour.strip() == "" or get_minute.strip() == "" or get_ampm.strip() == "":
-        messagebox.showerror("Alert", "Please fill in all fields for specific time!")
-        return
+        self.title = tk.CTkEntry(self.main_frame, width=40, text_color="#57a1f8", font=("Roboto", 16), fg_color='white')
+        self.title.pack(fill=tk.X, pady=5)
 
-    try:
-        set_time_str = f"{get_hour}:{get_minute} {get_ampm.upper()}"
-        set_time = datetime.strptime(set_time_str, "%I:%M %p").time()
-        now = datetime.now()
+        self.m_label = tk.CTkLabel(self.main_frame, text="Description: ", text_color="black", font=("Roboto", 18), fg_color='white')
+        self.m_label.pack(anchor="w", pady=5)
 
-        # Calculate time difference
-        current_time = now.time()
-        if set_time < current_time:
-            target_time = datetime.combine(now.date(), set_time) + timedelta(days=1)
-        else:
-            target_time = datetime.combine(now.date(), set_time)
+        self.msg = tk.CTkEntry(self.main_frame, width=40, text_color="#57a1f8", font=("Roboto", 16), fg_color='white')
+        self.msg.pack(fill=tk.X, pady=5)
 
-        time_diff = (target_time - now).total_seconds()
-        messagebox.showinfo("Notifier set", f"Notification set for {set_time_str}!")
-        t.destroy()
-        time.sleep(time_diff)
+        self.time_frame = tk.CTkFrame(self.main_frame, fg_color='white')
+        self.time_frame.pack(pady=10)
 
-        notification.notify(
-            title=get_title,
-            message=get_msg,
-            app_name="Notifier",
-            app_icon=r"C:\Users\Guest1\Desktop\ok\Python\tkinter.py\tk.py\NOTIFICATION-REMINDER-APP-main\Notifier-Desktop-app-master\ico.ico",  # Update the path to your icon
-            toast=True,
-            timeout=10
-        )
-    except ValueError:
-        messagebox.showerror("Alert", "Invalid time entered!")
+        self.time_hour = tk.CTkEntry(self.time_frame, width=30, text_color="#57a1f8", font=("Roboto", 16), fg_color='white')
+        self.time_hour.pack(side=tk.LEFT, padx=5)
+        tk.CTkLabel(self.time_frame, text=":", text_color="black", font=("Roboto", 14), fg_color='white').pack(side=tk.LEFT)
 
-# Styling constants
-label_font = ("poppins", 12)
-entry_font = ("poppins", 13)
-button_font = ("poppins", 12, "bold")
+        self.time_minute = tk.CTkEntry(self.time_frame, width=30, text_color="#57a1f8", font=("Roboto", 16), fg_color='white')
+        self.time_minute.pack(side=tk.LEFT, padx=5)
+        tk.CTkLabel(self.time_frame, text="", text_color="black", font=("Roboto", 14), fg_color='white').pack(side=tk.LEFT)
 
-# Center the layout - Label and Entry positions
-x_label_offset = 250
-x_entry_offset = 400
+        self.time_ampm = tk.CTkEntry(self.time_frame, width=36, text_color="#57a1f8", font=("Roboto", 16), fg_color='white')
+        self.time_ampm.pack(side=tk.LEFT, padx=3)
+        tk.CTkLabel(self.time_frame, text="AM/PM", text_color="black", font=("Roboto", 14), fg_color='white').pack(side=tk.LEFT)
 
-# Label - Title
-t_label = Label(t, text="Title: ", fg="black", font=("Microsoft YaHei UI Light",16))
-t_label.place(x=200, y=150)
+        self.set_button = tk.CTkButton(self.main_frame, text="SET NOTIFICATION", fg_color="#57a1f8", text_color="black", font=("Roboto", 16, "bold"), command=self.get_details)
+        self.set_button.pack(pady=10)
 
-# ENTRY - Title
-title = Entry(t, width="30", fg="#57a1f8", font=entry_font)
-title.place(x=350, y=150)
+        self.reminders_label = tk.CTkLabel(self.main_frame, text="Scheduled Reminders:", text_color="black", font=("Roboto", 18), fg_color='white')
+        self.reminders_label.pack(anchor="w", pady=10)
 
-# Label - Message
-m_label = Label(t, text="Description: ", fg="black", font=("Microsoft YaHei UI Light",16))
-m_label.place(x=200, y=200)
+        self.reminders_text = tk.CTkTextbox(self.main_frame, wrap=tk.WORD, font=("Roboto", 14), fg_color='white', height=6)
+        self.reminders_text.pack(fill=tk.BOTH, expand=True)
 
-# ENTRY - Message
-msg = Entry(t, width="30", fg="#57a1f8", font=entry_font)
-msg.place(x=350, height=30, y=200)
+        for widget in [self.title, self.msg, self.time_hour, self.time_minute, self.time_ampm]:
+            widget.bind("<Return>", self.focus_next)
 
-# Specific Time Mode
-# Label - Time Hour
-time_hour_label = Label(t, text="Hr", fg="black", font=("Microsoft YaHei UI Light",10))
-time_hour_label.place(x=400, y=260)
+        self.load_reminders()
 
-# ENTRY - Hour (Specific Time)
-time_hour = Entry(t, width="5", fg="#57a1f8", font=entry_font)
-time_hour.place(x=350, y=260)
+    def show_notification(self, message):
+        # Create a new Toplevel window for the notification pop-up
+        popup = tk.CTkToplevel(self.parent)
+        popup.title("Reminder Notification")
+        popup.geometry("300x150")
+        popup.configure(fg_color="white")
 
-# Label - Time Minute
-time_minute_label = Label(t, text="Min", fg="black", font=("Microsoft YaHei UI Light",10))
-time_minute_label.place(x=500, y=260)
+        # Display the notification message inside the pop-up window
+        message_label = tk.CTkLabel(popup, text=message, fg_color="white", text_color="#57a1f8", font=("Microsoft YaHei UI Light", 12))
+        message_label.pack(pady=20, padx=20)
 
-# ENTRY - Minute (Specific Time)
-time_minute = Entry(t, width="5", fg="#57a1f8", font=entry_font)
-time_minute.place(x=450, y=260)
+        # Close button to dismiss the pop-up manually
+        close_button = tk.CTkButton(popup, text="Close", fg_color="#57a1f8", text_color="black", command=popup.destroy)
+        close_button.pack(pady=10)
 
-# Label - AM/PM
-ampm_label = Label(t, text="AM/PM", fg="black", font=("Microsoft YaHei UI Light",10))
-ampm_label.place(x=600, y=260)
+        # Automatically close the pop-up after 5 seconds
+        popup.after(5000, popup.destroy)
 
-#Label - Time
-t_label = Label(t, text="Time: ", fg="black", font=("Microsoft YaHei UI Light",16))
-t_label.place(x=200, y=250)
+    def hide_notification(self):
+        # Clear the notification label
+        self.notification_label.config(text="")
 
+    def get_details(self):
+        get_title = self.title.get()
+        get_msg = self.msg.get()
 
-# ENTRY - AM/PM
-time_ampm = Entry(t, width="5", fg="#57a1f8", font=entry_font)
-time_ampm.place(x=550, y=260)
+        if get_title.strip() == "" or get_msg.strip() == "":
+            messagebox.showerror("Alert", "Title and message are required!")
+            return
 
-# Button to set notification
-but = Button(t, text="SET  NOTIFICATION", font=button_font, fg="#ffffff", bg="#528DFF", width=20, relief="raised", command=get_details)
-but.place(x=350, y=350)
+        get_hour = self.time_hour.get()
+        get_minute = self.time_minute.get()
+        get_ampm = self.time_ampm.get()
 
-t.resizable(0, 0)
-t.mainloop()
+        if get_hour.strip() == "" or get_minute.strip() == "" or get_ampm.strip() == "":
+            messagebox.showerror("Alert", "Please fill in all fields for specific time!")
+            return
+
+        try:
+            set_time_str = f"{get_hour}:{get_minute} {get_ampm.upper()}"
+            set_time = datetime.strptime(set_time_str, "%I:%M %p").time()
+            now = datetime.now()
+
+            current_time = now.time()
+            if set_time < current_time:
+                target_time = datetime.combine(now.date(), set_time) + timedelta(days=1)
+            else:
+                target_time = datetime.combine(now.date(), set_time)
+
+            time_diff = (target_time - now).total_seconds()
+            print(f"Time difference in seconds: {time_diff}")  # Debugging print
+
+            if time_diff > 0:
+                self.schedule_notification(time_diff, get_title, get_msg)
+                self.save_reminder(get_title, get_msg, set_time_str)
+                self.load_reminders()
+                self.show_notification(f"Notification set for {set_time_str}!")
+            else:
+                messagebox.showerror("Alert", "Invalid time entered!")
+
+            self.title.delete(0, tk.END)
+            self.msg.delete(0, tk.END)
+            self.time_hour.delete(0, tk.END)
+            self.time_minute.delete(0, tk.END)
+            self.time_ampm.delete(0, tk.END)
+
+        except ValueError:
+            messagebox.showerror("Alert", "Invalid time entered!")
+
+    def schedule_notification(self, time_diff, title, message):
+        print(f"Scheduling notification in {time_diff} seconds")  # Debugging print
+        self.frame.after(int(time_diff * 1000), lambda: self.show_notification(f"{title}: {message}"))
+
+    def focus_next(self, event):
+        event.widget.tk_focusNext().focus()
+        return "break"
+
+    def load_reminders(self):
+        try:
+            with open("reminders.txt", "r") as file:
+                reminders = file.read()
+                self.reminders_text.delete("1.0", tk.END)
+                self.reminders_text.insert(tk.END, reminders)
+        except FileNotFoundError:
+            self.reminders_text.delete("1.0", tk.END)
+            self.reminders_text.insert(tk.END, "No reminders scheduled yet.")
+
+    def save_reminder(self, title, message, time):
+        with open("reminders.txt", "a") as file:
+            file.write(f"{time} - {title}: {message}\n")
+        self.load_reminders()
+
+if __name__ == "__main__":
+    parent = tk.CTk()
+    app = Reminder(parent)
+    parent.mainloop()
