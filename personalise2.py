@@ -1,6 +1,6 @@
 import tkinter as tk
 from tkinter import font
-from centerwindow import *
+from devtools import *
 
 class Personalisation:
     def __init__(self, root):

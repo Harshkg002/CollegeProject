@@ -1,6 +1,6 @@
 from tkinter import *
 from PIL import Image, ImageTk
-from centerwindow import *  # Ensure this module is in the same directory or correctly referenced
+from devtools import *  # Ensure this module is in the same directory or correctly referenced
 
 class Personalise:
     
