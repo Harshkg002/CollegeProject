@@ -5,6 +5,7 @@ import time
 import os
 from typing import Dict, List, TypedDict
 
+
 class Habit(TypedDict):
     id: str
     name: str
@@ -12,38 +13,40 @@ class Habit(TypedDict):
     completed: bool
     last_checked: float
 
+
 class HabitTracker:
-    def __init__(self, parent=None):
-        self.window = parent if parent else tk.Tk()
-        self.window.config(bg="#ffffff")
+    def __init__(self, parent):
+        # Main frame for HabitTracker
+        self.frame = tk.Frame(parent, bg="white")
+        self.frame.pack(fill=tk.BOTH, expand=True,padx=10,pady=10)
 
         # Constants
         self.HABIT_FILE = "habits.json"
         self.HABIT_LIMIT = 20
         self.CHECK_INTERVAL = 24 * 60 * 60  # 24 hours in seconds
-        
+
         # Load habits
         self.habits: List[Habit] = self.load_habits()
-        
+
         # Setup styles
         self.setup_styles()
-        
+
         # Setup UI
         self.setup_ui()
-        
+
     def setup_styles(self):
         style = ttk.Style()
-        
+
         # Configure button style with white background and custom foreground color
         style.configure(
             "White.TButton",
             background="white",
-            foreground="#57a1f8",  # Change fg to #57a1f8
+            foreground="#57a1f8",
             borderwidth=1,
             relief="solid",
             padding=6
         )
-        
+
         # Ensure the button background remains white in all states
         style.map(
             "White.TButton",
@@ -51,45 +54,45 @@ class HabitTracker:
             foreground=[("active", "#57a1f8"), ("pressed", "#57a1f8"), ("!active", "#57a1f8")],
             relief=[("pressed", "flat")]
         )
-        
+
         # Configure checkbutton style
         style.configure("White.TCheckbutton", background="white")
-        
+
     def setup_ui(self):
         # Title Frame
-        title_frame = tk.Frame(self.window, bg="#f0f4f8")
-        title_frame.pack(pady=10)
-        
+        title_frame = tk.Frame(self.frame, bg="#f0f4f8")
+        title_frame.pack(pady=10, fill=tk.X)
+
         title = tk.Label(
             title_frame,
             text="Habit Tracker",
-            font=("Helvetica", 24, "bold"),
+            font=("Helvetica", 18, "bold"),
             fg="#1a365d",
             bg="#f0f4f8"
         )
         title.pack()
-        
+
         subtitle = tk.Label(
             title_frame,
             text="Build better habits, one day at a time",
-            font=("Helvetica", 12),
+            font=("Helvetica", 10),
             fg="#4a5568",
             bg="#f0f4f8"
         )
         subtitle.pack()
 
         # Input Frame
-        input_frame = tk.Frame(self.window, bg="#f0f4f8")
-        input_frame.pack(pady=20, padx=50)
-        
+        input_frame = tk.Frame(self.frame, bg="#f0f4f8")
+        input_frame.pack(pady=10, padx=10, fill=tk.X)
+
         self.habit_entry = ttk.Entry(
             input_frame,
             font=("Helvetica", 12),
-            width=40
+            width=30
         )
         self.habit_entry.pack(side=tk.LEFT, padx=5)
         self.habit_entry.bind("<Return>", lambda e: self.add_habit())
-        
+
         add_button = ttk.Button(
             input_frame,
             text="Add Habit",
@@ -99,28 +102,28 @@ class HabitTracker:
         add_button.pack(side=tk.LEFT, padx=5)
 
         # Habits List Frame
-        list_frame = tk.Frame(self.window, bg="white")
-        list_frame.pack(fill=tk.BOTH, expand=True, padx=50, pady=(0, 20))
-        
+        list_frame = tk.Frame(self.frame, bg="white")
+        list_frame.pack(fill=tk.BOTH, expand=True, padx=10, pady=(0, 10))
+
         # Create canvas and scrollbar for scrolling
         self.canvas = tk.Canvas(list_frame, bg="white")
         scrollbar = ttk.Scrollbar(list_frame, orient=tk.VERTICAL, command=self.canvas.yview)
         self.scrollable_frame = tk.Frame(self.canvas, bg="white")
-        
+
         self.scrollable_frame.bind(
             "<Configure>",
             lambda e: self.canvas.configure(scrollregion=self.canvas.bbox("all"))
         )
-        
+
         self.canvas.create_window((0, 0), window=self.scrollable_frame, anchor="nw")
         self.canvas.configure(yscrollcommand=scrollbar.set)
-        
+
         self.canvas.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
         scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
-        
+
         # Bind mousewheel
         self.canvas.bind_all("<MouseWheel>", self._on_mousewheel)
-        
+
         # Update habits display
         self.update_habits_display()
 
@@ -141,14 +144,14 @@ class HabitTracker:
         name = self.habit_entry.get().strip()
         if not name:
             return
-            
+
         if len(self.habits) >= self.HABIT_LIMIT:
             messagebox.showwarning(
                 "Limit Reached",
                 f"You can only add up to {self.HABIT_LIMIT} habits."
             )
             return
-            
+
         habit: Habit = {
             "id": str(int(time.time())),
             "name": name,
@@ -156,7 +159,7 @@ class HabitTracker:
             "completed": False,
             "last_checked": 0
         }
-        
+
         self.habits.append(habit)
         self.save_habits()
         self.habit_entry.delete(0, tk.END)
@@ -165,22 +168,22 @@ class HabitTracker:
     def toggle_habit(self, habit: Habit):
         current_time = time.time()
         time_since_last_check = current_time - habit["last_checked"]
-        
+
         if time_since_last_check < self.CHECK_INTERVAL:
             messagebox.showwarning(
                 "Warning",
                 "You can only toggle habits once every 24 hours!"
             )
             return
-            
+
         habit["completed"] = not habit["completed"]
         habit["last_checked"] = current_time
-        
+
         if habit["completed"]:
             habit["streak"] += 1
         else:
             habit["streak"] = 0
-            
+
         self.save_habits()
         self.update_habits_display()
 
@@ -200,7 +203,7 @@ class HabitTracker:
         # Clear existing habits
         for widget in self.scrollable_frame.winfo_children():
             widget.destroy()
-            
+
         if not self.habits:
             empty_label = tk.Label(
                 self.scrollable_frame,
@@ -221,11 +224,11 @@ class HabitTracker:
                 borderwidth=1
             )
             habit_frame.pack(fill=tk.X, padx=10, pady=5)
-            
+
             # Left side (checkbox and name)
             left_frame = tk.Frame(habit_frame, bg="white")
             left_frame.pack(side=tk.LEFT, fill=tk.X, expand=True, padx=10, pady=10)
-            
+
             var = tk.BooleanVar(value=habit["completed"])
             checkbox = ttk.Checkbutton(
                 left_frame,
@@ -235,11 +238,11 @@ class HabitTracker:
                 style="White.TCheckbutton"
             )
             checkbox.pack(side=tk.LEFT)
-            
+
             # Right side (streak and buttons)
             right_frame = tk.Frame(habit_frame, bg="white")
             right_frame.pack(side=tk.RIGHT, padx=10)
-            
+
             streak_label = tk.Label(
                 right_frame,
                 text=f"🏆 {habit['streak']}",
@@ -248,7 +251,7 @@ class HabitTracker:
                 fg="#eab308"
             )
             streak_label.pack(side=tk.LEFT, padx=5)
-            
+
             reset_button = ttk.Button(
                 right_frame,
                 text="↺",
@@ -257,7 +260,7 @@ class HabitTracker:
                 style="White.TButton"
             )
             reset_button.pack(side=tk.LEFT, padx=2)
-            
+
             delete_button = ttk.Button(
                 right_frame,
                 text="×",
@@ -266,10 +269,3 @@ class HabitTracker:
                 style="White.TButton"
             )
             delete_button.pack(side=tk.LEFT, padx=2)
-
-    def run(self):
-        self.window.mainloop()
-
-if __name__ == "__main__":
-    app = HabitTracker()
-    app.run()
