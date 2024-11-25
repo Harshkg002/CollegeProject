@@ -11,11 +11,6 @@ class JournalApp:
         self.frame = ctk.CTkFrame(parent,fg_color="#ffffff", corner_radius=20)
         self.frame.pack( padx=10,pady=10,fill="both", expand=True)
 
-        def clear_text(event):
-            # Check if the text is the default text, and clear if it is
-            if self.text_area.get("1.0", "end-1c") == "What’s been the highlight of your day?":
-                self.text_area.delete("1.0", "end")
-
         # Create the text area
         self.text_area = ctk.CTkTextbox(
         self.frame, height=300, width=500, corner_radius=10,
@@ -25,7 +20,7 @@ class JournalApp:
         self.text_area.insert("1.0", "What's been the highlight of your day?")
 
         # Bind the clear_text function to the left-click event
-        self.text_area.bind("<Button-1>", clear_text) 
+        self.text_area.bind("<Button-1>", self.clear_text) 
 
         # Button frame
         self.button_frame = ctk.CTkFrame(self.frame,fg_color="white", corner_radius=10)
@@ -47,6 +42,10 @@ class JournalApp:
        # Create a Label to display success or warning message
         result_label = ctk.CTkLabel(self.button_frame, text="", font=("Arial", 12))
         result_label.pack() 
+    def clear_text(self,event):
+            # Check if the text is the default text, and clear if it is
+            if self.text_area.get("1.0", "end-1c") == "What’s been the highlight of your day?":
+                self.text_area.delete("1.0", "end")
     def save_entry(self):
         entry = self.text_area.get("1.0", "end-1c").strip()
         if entry:
