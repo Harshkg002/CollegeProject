@@ -20,18 +20,14 @@ class HabitTracker:
         self.frame = tk.Frame(parent, bg="white")
         self.frame.pack(fill=tk.BOTH, expand=True,padx=10,pady=10)
 
-        # Constants
         self.HABIT_FILE = "habits.json"
         self.HABIT_LIMIT = 20
         self.CHECK_INTERVAL = 24 * 60 * 60  # 24 hours in seconds
 
-        # Load habits
         self.habits: List[Habit] = self.load_habits()
 
-        # Setup styles
         self.setup_styles()
 
-        # Setup UI
         self.setup_ui()
 
     def setup_styles(self):
@@ -55,11 +51,10 @@ class HabitTracker:
             relief=[("pressed", "flat")]
         )
 
-        # Configure checkbutton style
         style.configure("White.TCheckbutton", background="white")
 
     def setup_ui(self):
-        # Title Frame
+      
         title_frame = tk.Frame(self.frame, bg="#f0f4f8")
         title_frame.pack(pady=10, fill=tk.X)
 
@@ -121,7 +116,6 @@ class HabitTracker:
         self.canvas.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
         scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
 
-        # Bind mousewheel
         self.canvas.bind_all("<MouseWheel>", self._on_mousewheel)
 
         # Update habits display
@@ -225,7 +219,6 @@ class HabitTracker:
             )
             habit_frame.pack(fill=tk.X, padx=10, pady=5)
 
-            # Left side (checkbox and name)
             left_frame = tk.Frame(habit_frame, bg="white")
             left_frame.pack(side=tk.LEFT, fill=tk.X, expand=True, padx=10, pady=10)
 
@@ -239,7 +232,7 @@ class HabitTracker:
             )
             checkbox.pack(side=tk.LEFT)
 
-            # Right side (streak and buttons)
+        
             right_frame = tk.Frame(habit_frame, bg="white")
             right_frame.pack(side=tk.RIGHT, padx=10)
 

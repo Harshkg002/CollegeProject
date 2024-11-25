@@ -6,42 +6,40 @@ from datetime import datetime
 
 class ExpenseTracker:
     def __init__(self, parent):
-        # Main frame for ExpenseTracker (customtkinter)
+  
         self.frame = ctk.CTkFrame(parent, fg_color="white")
         self.frame.pack(fill=ctk.BOTH, expand=True, padx=10, pady=10)
 
-        # Title (customtkinter)
         self.title_label = ctk.CTkLabel(
             self.frame, text="Expense Tracker", font=("Roboto", 20,"bold"), fg_color="white",text_color="black")
         self.title_label.pack(pady=10)
 
-        # Entry for item (customtkinter)
         self.item_label = ctk.CTkLabel(self.frame, text="Item:", font=("Roboto", 16,"bold"), fg_color="white",text_color="black")
         self.item_label.place(x=210, y=55)
         self.item_entry = ctk.CTkEntry(self.frame, width=250,fg_color="#ebebeb",text_color="black")
         self.item_entry.pack(pady=5)
 
-        # Entry for cost (customtkinter)
+   
         self.cost_label = ctk.CTkLabel(self.frame, text="Cost:", font=("Roboto", 16,"bold"), fg_color="white",text_color="black")
         self.cost_label.place(x=210, y=95)
         self.cost_entry = ctk.CTkEntry(self.frame, width=250,fg_color="#ebebeb",text_color="black")
         self.cost_entry.pack(pady=5)
 
-        # Button to add expense (customtkinter)
+    
         self.add_button = ctk.CTkButton(
             self.frame, text="Add Expense", fg_color="#357ABD", text_color="white",hover_color="blue", command=self.add_expense)
         self.add_button.place(x=315, y=125)
 
-        # Listbox to show expenses (native Tkinter Listbox)
+        
         self.expense_listbox = tk.Listbox(self.frame, width=50, height=10)
         self.expense_listbox.pack(pady=(50,20))
 
-        # Label to show total expenses (customtkinter)
+        
         self.total_label = ctk.CTkLabel(
             self.frame, text="Total: ₹0", font=("Roboto", 20), fg_color="white",text_color="black")
         self.total_label.pack()
 
-        # List to store expenses
+        
         self.expenses = []
         self.total_by_month = {}
 
