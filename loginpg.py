@@ -49,17 +49,17 @@ class login:
 
         # Buttons and Labels
         self.but1 = Button(self.frame, text="Login", bg="white", fg="#57a1f8", border=0)
-        self.but1.place(x=35, y=220, width=300, height=40)
+        self.but1.place(x=35, y=190, width=300, height=40)
         self.but1.bind("<Button-1>",self.fetchdb)
 
-        self.lbl1 = Label(self.root, text="Don't have an account? Create one", fg="black", bg="white", font=(12))
-        self.lbl1.place(x=520, y=340)
 
-        self.butt=Button(self.root, text='Sign up', fg='#57a1f8', bd=0, font=('Arial Bold',12))
-        self.butt.place(x=740, y=345, height=15, width=60)
+        self.butt=Button(self.root, text='Sign up', fg='#57a1f8',bg="#ffffff", bd=0, font=('Arial Bold',12))
+        self.butt.place(x=630, y=300, height=20, width=60)
         self.butt.bind("<Button-1>",self.next)
         self.butt.config(highlightthickness=0)
 
+        self.lbl1 = Label(self.root, text="Don't have an account? Create one", fg="black", bg="white", font=(12))
+        self.lbl1.place(x=520, y=340)
         self.root.mainloop()
 
 
@@ -108,16 +108,14 @@ class login:
                 # You can implement further logic here for a successful login
             else:
              ms.showerror("ERROR", "Invalid email or password. Please try again.")
-
-        except mc.Error as e:
-            ms.showerror("Database Error", f"An error occurred: {e}")
-    
-        finally:
             # Close the cursor and connection
             cur.close()
             con.close()
-                    
+
+        except mc.Error as e:
+            ms.showerror("Database Error", f"An error occurred: {e}")
+                        
             
 
-# Create an instance of the Signup class
-#object = login()
+if __name__ == "__main__":
+    root = login()

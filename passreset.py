@@ -1,6 +1,6 @@
 from tkinter import *
 from tkinter import messagebox as ms 
-from centerwindow import *
+from devtools import *
 import smtplib
 from email.message import EmailMessage
 import random
@@ -62,7 +62,7 @@ class reset:
                 connection = mysql.connector.connect(
         host='localhost',  # or your server IP
         user='root',
-        password='7015555218',
+        password='aniket@12',
         database='backend'
                 )
              
@@ -92,7 +92,7 @@ class reset:
         window_height=500
         center_window(self.root, window_width, window_height)
 
-        self.img = PhotoImage(file="/Users/akshsaini/Documents/PYproject//login.png")
+        self.img = PhotoImage(file=find_file("login.png"))
         Label(self.root, image=self.img, bg="white").place(x=50, y=50)
 
         self.frame = Frame(self.root, width=350, height=350, bg="white")

@@ -81,7 +81,7 @@ class Signup:
         window_height=500
         center_window(self.root,window_width,window_height)
 
-        self.img = PhotoImage(file="/Users/akshsaini/Documents/PYproject/login.png")
+        self.img = PhotoImage(file=find_file("login.png"))
         Label(self.root, image=self.img, bg="white").place(x=50, y=50)
 
         self.frame = Frame(self.root, width=350, height=350, bg="white")
@@ -156,8 +156,3 @@ class Signup:
         self.__label1.bind('<Button-1>',self.back())
         self.__label1.config(bd=0,highlightthickness=0)
 
-# Main loop to run the application
-#if __name__ == "__main__":s
- #   root = Tk()
-  #  app = Signup(root)
-   # root.mainloop()
