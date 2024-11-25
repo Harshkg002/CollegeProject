@@ -45,7 +45,7 @@ class JournalApp:
         )
         self.load_button.pack(side="left", padx=10)
        # Create a Label to display success or warning message
-        result_label = ctk.CTkLabel(self.button_frame, text="hh", font=("Arial", 12))
+        result_label = ctk.CTkLabel(self.button_frame, text="", font=("Arial", 12))
         result_label.pack() 
     def save_entry(self):
         entry = self.text_area.get("1.0", "end-1c").strip()

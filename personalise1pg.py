@@ -26,7 +26,7 @@ class Personalise:
         center_window(self.root, window_width, window_height)  # Ensure this function is defined in centerwindow.py
 
 
-        self.img = PhotoImage(file="/Users/akshsaini/Documents/PYproject//login.png")
+        self.img = PhotoImage(file=find_file("login.png"))
         Label(self.root, image=self.img, bg="white").place(x=50, y=50)
 
         
@@ -54,6 +54,6 @@ class Personalise:
 
         self.root.mainloop()  # Start the Tkinter main loop
 
-# To create an instance of the Personalise class
-#if __name__ == "__main__":
-    #app = Personalise()
+
+if __name__ == "__main__":
+    app = Personalise()

@@ -48,21 +48,29 @@ class login:
         self.passw.config(highlightthickness=0)
 
         # Buttons and Labels
-        self.but1 = Button(self.frame, text="Login", bg="white", fg="#57a1f8", border=0)
-        self.but1.place(x=35, y=190, width=300, height=40)
+        self.but1 = Button(self.frame, text="Login", font=('Arial Bold',12), bg="#ffffff", fg="#57a1f8", border=3)
+        self.but1.place(x=80, y=210, width=200, height=40)
         self.but1.bind("<Button-1>",self.fetchdb)
 
 
         self.butt=Button(self.root, text='Sign up', fg='#57a1f8',bg="#ffffff", bd=0, font=('Arial Bold',12))
-        self.butt.place(x=630, y=300, height=20, width=60)
+        self.butt.place(x=730, y=340, height=20, width=60)
         self.butt.bind("<Button-1>",self.next)
         self.butt.config(highlightthickness=0)
+        
+        self.buttt=Button(self.root, text='Forgot password', fg='#57a1f8',bg="#ffffff",font=('Arial Bold',10),bd=0)
+        self.buttt.place(x=690, y=225, height=20, width=120)
+        self.buttt.bind("<Button-1>",self.fpass)
+        self.buttt.config(highlightthickness=0)
 
-        self.lbl1 = Label(self.root, text="Don't have an account? Create one", fg="black", bg="white", font=(12))
+        self.lbl1 = Label(self.root, text="Don't have an account? Create one",font=("Arial",10), fg="black", bg="white")
         self.lbl1.place(x=520, y=340)
         self.root.mainloop()
 
-
+    def fpass(self, event=None):  # Use event=None to allow for an optional argument
+        import passreset as p
+        self.root.destroy()
+        p.reset
 
     def on_entry_click(self, event, entry, placeholder):
         """Function to clear the placeholder text when the entry is clicked."""
@@ -104,7 +112,9 @@ class login:
 
             # Check if a record was found
             if user_record:
-                ms.showinfo("Success", "Login successful!")  # You can redirect to another window here
+                self.root.destroy()
+                import newui as h
+                h.DegreeBeeDashboard()
                 # You can implement further logic here for a successful login
             else:
              ms.showerror("ERROR", "Invalid email or password. Please try again.")

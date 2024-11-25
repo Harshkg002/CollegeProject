@@ -16,6 +16,10 @@ class DegreeBeeDashboard:
         self.root.geometry("925x500")
         self.root.configure(bg="white")
 
+        window_width=925
+        window_height=500
+        devtools.center_window(self.root,window_width,window_height)
+
         self.buttons = []
         self.right_panel = None
         self.current_feature_frame = None

@@ -23,16 +23,17 @@ class Signup:
 
     def send_otp(self):
         email = self.email_entry.get()
+        username = self.name.get()
         self.otp = str(random.randint(100000, 999999))
         msg = EmailMessage()
-        msg.set_content(f"Your OTP is: {self.otp}")
+        msg.set_content(f"Dear {username} \n\n\nThank you for registering with Degree Bee! To complete your sign-up and verify your email address, please enter the verification code provided below.\n\nYour Verification Code: {self.otp}\n\n\nIf you didn’t request this verification, please ignore this email.\nFor any querry or support, feel free to contact our team at degreebeeofficial@gmail.com.\n\nBest regards\nThe Degree Bee Team ")
         msg["Subject"] = "Email Verification OTP"
-        msg["From"] = "akshsaini1908@gmail.com"
+        msg["From"] = "degreebeeofficial@gmail.com"
         msg["To"] = email
 
         try:
             server = smtplib.SMTP_SSL("smtp.gmail.com", 465)
-            server.login("akshsaini1908@gmail.com", "xtkw wxwe yuac ispv")  # Replace with actual password
+            server.login("degreebeeofficial@gmail.com", "lsjx ltlr qfiu fkyi")  # Replace with actual password
             server.send_message(msg)
             server.quit()
             self.result_label.config(text="OTP sent successfully", fg="green")
@@ -64,10 +65,10 @@ class Signup:
             import loginpg as l
             obj=l.login()
 
-    #def back(self):
-         #import loginpg as p
-         #self.root.destroy()
-         #object=p.login()
+    def back(self, event=None):
+        self.root.destroy()
+        import loginpg as l
+        l.login()
 
 
     def __init__(self, root):
@@ -130,12 +131,12 @@ class Signup:
         self.result_label.place(x=30, y=270)
 
         # Create button to send OTP
-        self.send_button = Button(self.root, text="Send OTP", bd=0, command=self.send_otp)
+        self.send_button = Button(self.root, text="Send OTP",bg="white", bd=0, command=self.send_otp)
         self.send_button.place(x=730, y=210, width=80)
         self.send_button.config(highlightthickness=0)
 
         # Create button to verify OTP
-        self.verify_button = Button(self.root, text="Verify", bd=0, command=self.verify_otp)
+        self.verify_button = Button(self.root, text="Verify",bg="white", bd=0, command=self.verify_otp)
         self.verify_button.place(x=730, y=270)
         self.verify_button.config(highlightthickness=0)
 
@@ -143,16 +144,16 @@ class Signup:
         self.otp = ""
 
         # Create Sign Up button
-        self.but1 = Button(self.frame, text="Sign up", bg="white", fg="#57a1f8", border=0)
+        self.but1 = Button(self.frame, text="Sign up", bg="white", fg="#57a1f8", border=3)
         self.but1.place(x=35, y=310, width=300, height=40)
         self.but1.bind("<Button-1>", self.database)
 
-        self.__path1 = find_file("backbut.pmg")
-        self.__original1 = Image.open(self.__path1)
-        self.__resized1 = self.__original1.resize((30, 30))
-        self.__fimage1 = ImageTk.PhotoImage(self.__resized1)
-        self.__label1 = Label(self.root, image=self.__fimage1)
-        self.__label1.place(x=10, y=10)
-        self.__label1.bind('<Button-1>',self.back())
-        self.__label1.config(bd=0,highlightthickness=0)
+        self.path1 = find_file("backbut.png")  # Correcting typo in file extension from .pmg to .png
+        self.original1 = Image.open(self.path1)  # Corrected attribute reference
+        self.resized1 = self.original1.resize((30, 30))  # Corrected attribute reference
+        self.fimage1 = ImageTk.PhotoImage(self.resized1)  # Corrected attribute reference
+        self.label1 = Label(self.root, image=self.fimage1)
+        self.label1.place(x=10, y=10)
+        self.label1.bind('<Button-1>', self.back)  # Removed unnecessary parentheses in `self.back`
+        self.label1.config(bd=0, highlightthickness=0)
 
