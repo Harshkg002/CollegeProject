@@ -55,7 +55,7 @@ class Signup:
             self.passw.delete(0,END)
 
         else :
-            con=mc.connect(host="localhost",user="root",password="password",database="database") 
+            con=mc.connect(host="localhost",user="root",password="aniket@12",database="backend") 
             cur=con.cursor() 
             cur.execute("insert into userdata (username,email,passwordd)values(%s,%s,%s)",(self.name.get(),self.email_entry.get(),self.passw.get()))
             con.commit()

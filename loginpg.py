@@ -92,7 +92,7 @@ class login:
 
         try:
             # Connect to the MySQL database
-            con = mc.connect(host='localhost', user='root', password='password', database='database')
+            con = mc.connect(host='localhost', user='root', password='aniket@12', database='backend')
             cur = con.cursor()
 
             # Parameterized query to prevent SQL injection
